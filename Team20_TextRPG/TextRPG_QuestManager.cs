@@ -26,11 +26,13 @@ namespace Team20_TextRPG
     [System.Serializable]
     public partial class Reward
     {
+        public string ItemId { get; set; }
         public string Name { get; set; }
         public int Quantity { get; set; }
 
-        public Reward(string name, int quantity)
+        public Reward(string itemId, string name, int quantity)
         {
+            ItemId = itemId;
             Name = name;
             Quantity = quantity;
         }
@@ -53,15 +55,29 @@ namespace Team20_TextRPG
 
         public void DisplayQuestDataInfo()
         {
-            Console.WriteLine("Quest!!\n");
-            Console.WriteLine($"{title}\n");
+            Console.OutputEncoding = Encoding.UTF8;
+
+            Console.WriteLine("=================================================================");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine(@"
+             ___  _ _  ___  ___  ___
+            | . || | || __>/ __>|_ _|
+            | | || ' || _> \__ \ | | 
+            `___\`___'|___><___/ |_| ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("=================================================================");
+            //Console.WriteLine("Quest!!\n");
+            Console.WriteLine();
+            Console.WriteLine($"퀘스트 제목: {title}\n");
+            Console.WriteLine();
             Console.WriteLine($"{description}\n");
-            Console.WriteLine($"- {objective} ({MissionProgressValue}/{MissionTargetvalue})\n");
+            Console.WriteLine($"- 퀘스트 내용: {objective} ({MissionProgressValue}/{MissionTargetvalue})\n");
             Console.WriteLine($"-보상-");
             foreach (Reward reward in Rewards)
             {
                 Console.WriteLine($"{reward.Name} x {reward.Quantity}");
             }
+            Console.WriteLine("=================================================================");
         }
     }
 
@@ -95,11 +111,18 @@ namespace Team20_TextRPG
         //모든 퀘스트들을 출력하는 메서드
         public void DisplayQuests()
         {
+            Console.WriteLine();
+            Console.WriteLine("[퀘스트 리스트]");
+            Console.WriteLine();
+
             foreach (var quest in Quests)
             {
                 string stateStr = GetStateStr(quest.State);
                 Console.WriteLine($"{quest.id}. {quest.title} ({stateStr})");
+                Console.WriteLine();
             }
+
+            Console.WriteLine("================================================");
         }
 
         //퀘스트 진행 상태를 문자열로 나타내는 메서드
